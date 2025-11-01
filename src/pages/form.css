@@ -1,0 +1,219 @@
+/* Page layout */
+.form-page {
+  padding: 110px 16px 56px; /* account for fixed header */
+  min-height: calc(100vh - 200px);
+  background:
+    radial-gradient(40% 60% at 0% 0%, rgba(181, 8, 8, 0.05), transparent 60%),
+    radial-gradient(40% 60% at 100% 0%, rgba(31, 66, 100, 0.06), transparent 60%);
+}
+
+/* Card */
+.form-card {
+  max-width: 760px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e6e8ee;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: 28px 22px;
+  position: relative;
+}
+.form-card::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 4px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  background: linear-gradient(90deg, #b50808, #1f4264);
+}
+
+.form-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.back-link {
+  color: #1f4264;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.back-link:hover { text-decoration: underline; }
+
+.progress {
+  position: relative;
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #b50808, #c21313);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+.progress-label {
+  display: block;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.form-header h2,
+.form-header p {
+  text-align: center;
+}
+.form-header p { color: #5b6470; margin-top: 6px; margin-bottom: 14px; }
+
+/* Grid form */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 16px;
+}
+
+@media (min-width: 640px) {
+  .form-grid { grid-template-columns: 1fr 1fr; }
+  .span-2 { grid-column: span 2; }
+}
+
+.field label {
+  display: block;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #12263a;
+  margin-bottom: 6px;
+}
+.field label.required::after { content: ' *'; color: #b50808; }
+
+.field input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cfd5ea;
+  border-radius: 9px;
+  font-size: 1rem;
+  text-align: center;
+}
+.field input:hover { border-color: #b9c1de; }
+
+.field input:focus {
+  outline: none;
+  border-color: rgb(181, 8, 8);
+  box-shadow: 0 0 0 3px rgba(181, 8, 8, 0.12);
+}
+
+.input-wrap { position: relative; }
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9aa5c3;
+}
+.input-wrap input { padding-left: 36px; }
+.input-wrap input:focus + .input-icon,
+.input-wrap:focus-within .input-icon { color: #b50808; }
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.actions button {
+  padding: 12px 18px;
+  background: linear-gradient(180deg, #b50808, #8f0d0d);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.05s;
+}
+
+.actions button:hover {
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+}
+
+.actions button:active { transform: translateY(0); }
+.actions button[disabled] { opacity: 0.7; cursor: not-allowed; }
+
+.below-action { text-align: center; margin-top: 8px; }
+.login-link { color: #1f4264; text-decoration: none; }
+.login-link:hover { text-decoration: underline; }
+
+/* Alerts */
+.alert {
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin: 8px 0 14px;
+}
+.alert.error {
+  color: #7a1010;
+  background: #fde8e8;
+  border: 1px solid #f6c8c8;
+}
+.alert.success {
+  color: #0f5132;
+  background: #d1e7dd;
+  border: 1px solid #badbcc;
+}
+
+/* Helper text */
+.hint {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Password strength */
+.strength { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 10px; 
+  margin-top: 8px; 
+}
+.strength .bars { display: flex; gap: 4px; }
+.strength .bar {
+  width: 36px;
+  height: 6px;
+  border-radius: 4px;
+  background: #e5e7eb;
+}
+.strength.weak .bar.on { background: #ef4444; }
+.strength.fair .bar.on { background: #f59e0b; }
+.strength.good .bar.on { background: #10b981; }
+.strength.strong .bar.on { background: #047857; }
+.strength .label { font-size: 0.85rem; color: #6b7280; }
+.strength .label.weak { color: #b91c1c; }
+.strength .label.fair { color: #b45309; }
+.strength .label.good { color: #047857; }
+.strength .label.strong { color: #065f46; }
+
+.tos { 
+  text-align: center; 
+  color: #6b7280; 
+  font-size: 0.85rem; 
+  margin-top: -4px; 
+}
+
+/* Placeholder */
+::placeholder {
+  color: #9ca3af;
+  font-size: small;
+}
+
+/* Desktop alignment for readability */
+@media (min-width: 640px) {
+  .field label { text-align: left; }
+  .field input { text-align: left; }
+}
