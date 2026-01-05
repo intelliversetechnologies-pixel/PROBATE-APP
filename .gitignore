@@ -1,3 +1,5 @@
+/node_modules/
+/.vite/
 backend/.env
 backend/uploads/
 backend/*.log
