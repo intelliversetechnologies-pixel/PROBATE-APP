@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -9,7 +10,9 @@ import {
     FilePlus,
     Scale,
     Bell,
-    Search
+    Search,
+    Menu,
+    X
 } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
@@ -18,6 +21,12 @@ export default function Layout() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [location.pathname]);
 
     if (!user) {
         return <Outlet />; // Render Login/Landing if not auth
@@ -31,19 +40,37 @@ export default function Layout() {
     const isActive = (path) => location.pathname === path ? 'active' : '';
 
     return (
-        <div style={{ display: 'flex', height: '100vh', backgroundColor: 'var(--c-bg)' }}>
+        <div style={{ display: 'flex', height: '100vh', backgroundColor: 'var(--c-bg)', overflow: 'hidden' }}>
+
+            {/* Mobile Sidebar Overlay */}
+            {isMobileMenuOpen && (
+                <div className="sidebar-overlay" onClick={() => setIsMobileMenuOpen(false)} />
+            )}
+
             {/* Sidebar */}
-            <aside style={{
-                width: 'var(--sidebar-width)',
-                backgroundColor: 'var(--c-primary)',
-                color: 'white',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'fixed',
-                height: '100%',
-                zIndex: 50
-            }}>
-                <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--c-primary-light)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <aside
+                className={`sidebar-mobile ${isMobileMenuOpen ? 'open' : ''}`}
+                style={{
+                    width: 'var(--sidebar-width)',
+                    backgroundColor: 'var(--c-primary)',
+                    color: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'fixed',
+                    height: '100%',
+                    zIndex: 50
+                }}>
+                <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--c-primary-light)', display: 'flex', flexDirection: 'column', gap: '0.5rem', position: 'relative' }}>
+
+                    {/* Mobile Close Button */}
+                    <button
+                        className="hidden-desktop"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        style={{ position: 'absolute', top: '1rem', right: '1rem', color: 'white', opacity: 0.7 }}
+                    >
+                        <X size={24} />
+                    </button>
+
                     <img src={logo} alt="First Registrars" style={{ height: '40px', objectFit: 'contain', alignSelf: 'flex-start', background: 'white', padding: '4px', borderRadius: '4px' }} />
                     <div>
                         <h2 style={{ fontSize: '1rem', fontWeight: '700', letterSpacing: '-0.025em' }}>Probate Ease</h2>
@@ -51,7 +78,7 @@ export default function Layout() {
                     </div>
                 </div>
 
-                <nav style={{ flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <nav style={{ flex: 1, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', overflowY: 'auto' }}>
 
                     {user.role === 'CLIENT' && (
                         <>
@@ -114,7 +141,9 @@ export default function Layout() {
             </aside>
 
             {/* Main Content */}
-            <main style={{ marginLeft: 'var(--sidebar-width)', flex: 1, display: 'flex', flexDirection: 'column', width: 'calc(100% - var(--sidebar-width))' }}>
+            <main
+                className="main-content-mobile"
+                style={{ marginLeft: 'var(--sidebar-width)', flex: 1, display: 'flex', flexDirection: 'column', width: 'calc(100% - var(--sidebar-width))', transition: 'margin-left 0.3s ease' }}>
                 <header style={{
                     height: 'var(--header-height)',
                     backgroundColor: 'white',
@@ -122,14 +151,24 @@ export default function Layout() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '0 2rem',
+                    padding: '0 1rem', // Reduced padding for mobile
                     position: 'sticky',
                     top: 0,
                     zIndex: 40
                 }}>
-                    <h1 style={{ fontSize: '1.25rem', fontWeight: '600' }}>
-                        {location.pathname.includes('new') ? 'New Application' : 'Dashboard Overview'}
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <button
+                            className="hidden-desktop"
+                            onClick={() => setIsMobileMenuOpen(true)}
+                            style={{ padding: '0.5rem', marginLeft: '-0.5rem' }}
+                        >
+                            <Menu size={24} />
+                        </button>
+                        <h1 style={{ fontSize: '1.1rem', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {location.pathname.includes('new') ? 'New Application' : 'Dashboard'}
+                        </h1>
+                    </div>
+
                     <div className="flex items-center gap-4">
                         <div style={{ position: 'relative' }}>
                             <Bell size={20} color="var(--c-text-muted)" />
@@ -141,7 +180,7 @@ export default function Layout() {
                     </div>
                 </header>
 
-                <div style={{ padding: '2rem', flex: 1, overflowY: 'auto' }}>
+                <div style={{ padding: '1rem', flex: 1, overflowY: 'auto' }}>
                     <Outlet />
                 </div>
             </main>

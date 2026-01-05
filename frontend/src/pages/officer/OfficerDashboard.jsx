@@ -42,7 +42,7 @@ export default function OfficerDashboard() {
 
     return (
         <div className="container" style={{ maxWidth: '100%' }}>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
                 <h2 className="text-xl">Officer Desk Overview</h2>
                 <div className="flex gap-2">
                     <span className="text-sm text-muted flex items-center gap-2">
@@ -53,7 +53,7 @@ export default function OfficerDashboard() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+            <div className="grid-cols-3 grid-responsive">
                 {/* Columns */}
                 <div className="kanban-col">
                     <h3 className="text-sm font-bold text-muted mb-4 uppercase flex justify-between">

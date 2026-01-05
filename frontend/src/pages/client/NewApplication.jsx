@@ -47,7 +47,7 @@ export default function NewApplication() {
                     )}
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="grid-cols-2 grid-responsive">
                     <div className="input-group">
                         <label className="input-label">Date of Demise</label>
                         <input
