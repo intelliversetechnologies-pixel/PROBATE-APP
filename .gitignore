@@ -1,0 +1,7 @@
+backend/.env
+backend/uploads/
+backend/*.log
+backend/node_modules/
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
