@@ -1,4 +1,4 @@
-import './Hero.css';
+import './hero.css';
 import { useNavigate } from 'react-router-dom';
 
 function Hero() {
